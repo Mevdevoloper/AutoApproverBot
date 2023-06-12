@@ -62,12 +62,11 @@ func Start(bot *gotgbot.Bot, ctx *ext.Context) error {
 
 	user := ctx.EffectiveSender.User
 	text := `
-<b>Hello <a href="tg://user?id=%v">%v</a></b>
+<b>Hello <a href="tg://user?id=%v">%v</a></b> ❤️
 I am a bot made for accepting newly coming join requests at the time they comes.
-I am made with <a href="go.dev">golang</a> to give a better performance!
 
-Bot made with 💝 by <a href="t.me/AboutReeshu">Reeshu</a> for you!
-<b>Support Chat:</b> @UserChatRoom
+Bot made with 💝 by <a href="t.me/CodeMasterTG">Code Master Bots</a> for you!
+<b>Support Chat:</b><a href="t.me/+4KDIm0IQ_NQ0NDdl">Support Chat</a>
 	`
 	ctx.EffectiveMessage.Reply(
 		bot,
