@@ -51,7 +51,7 @@ func main() {
 		fmt.Println("Failed to start bot:", poll.Error())
 	}
 
-	fmt.Printf("@%s has been sucesfully started\n💝Made by @ItsReeshu\n", bot.Username)
+	fmt.Printf("@%s has been sucesfully started\n💝Made by @CodeMasterTG\n", bot.Username)
 	updater.Idle()
 }
 
