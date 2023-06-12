@@ -69,20 +69,16 @@ Bot made with 💝 by <a href="t.me/CodeMasterTG">Code Master Bots</a> for you!
 <b>Support Chat:</b><a href="t.me/+4KDIm0IQ_NQ0NDdl">Support Chat</a>
 	`
 	ctx.EffectiveMessage.Reply(
-		bot,
-		fmt.Sprintf(text, user.Id, user.FirstName),
-		&gotgbot.SendMessageOpts{
-			ReplyMarkup: gotgbot.InlineKeyboardMarkup{
-				InlineKeyboard: [][]gotgbot.InlineKeyboardButton{{
-					{Text: "My Source Code", Url: "https://github.com/Reeshuxd/AutoApproverBot"},
-				}},
-			},
-			ParseMode:             "html",
-			DisableWebPagePreview: true,
-		},
-	)
-	return nil
+    bot,
+    fmt.Sprintf(text, user.Id, user.FirstName),
+    &gotgbot.SendMessageOpts{
+        ParseMode:             "html",
+        DisableWebPagePreview: true,
+    },
+)
+return nil
 }
+
 
 func Approve(bot *gotgbot.Bot, ctx *ext.Context) error {
 	_, err := bot.ApproveChatJoinRequest(ctx.EffectiveChat.Id, ctx.EffectiveSender.User.Id)
