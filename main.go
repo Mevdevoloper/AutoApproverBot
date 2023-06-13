@@ -1,16 +1,19 @@
 //   Approver Bot
 //   Copyright (C) 2021 Reeshuxd (@reeshuxd)
 
+
 package main
 
 import (
 	"fmt"
 	"net/http"
+	"os"
 
 	"github.com/PaulSonOfLars/gotgbot/v2"
 	"github.com/PaulSonOfLars/gotgbot/v2/ext"
 	"github.com/PaulSonOfLars/gotgbot/v2/ext/handlers"
 )
+
 func main() {
 	bot, err := gotgbot.NewBot(
 		os.Getenv("TOKEN"),
@@ -24,7 +27,6 @@ func main() {
 	if err != nil {
 		fmt.Println("Failed to create bot:", err.Error())
 	}
-
 	updater := ext.NewUpdater(
 		&ext.UpdaterOpts{
 			ErrorLog: nil,
@@ -43,9 +45,6 @@ func main() {
 	// Commands
 	dp.AddHandler(handlers.NewCommand("start", Start))
 	dp.AddHandler(handlers.NewChatJoinRequest(nil, Approve))
-	dp.AddHandler(handlers.NewCommand("status", Status))
-	dp.AddHandler(handlers.NewCommand("broadcast", Broadcast))
-	dp.AddHandler(handlers.NewCommand("force_subscribe", ForceSubscribe))
 
 	// Start Polling()
 	poll := updater.StartPolling(bot, &ext.PollingOpts{DropPendingUpdates: true})
@@ -53,33 +52,39 @@ func main() {
 		fmt.Println("Failed to start bot:", poll.Error())
 	}
 
-	fmt.Printf("@%s has been successfully started\n💝Made by @CodeMasterTG\n", bot.Username)
+	fmt.Printf("@%s has been sucesfully started\n💝Made by @CodeMasterTG\n", bot.Username)
 	updater.Idle()
 }
 
-func ForceSubscribe(bot *gotgbot.Bot, ctx *ext.Context) error {
-	// Check if the user is already a member of the chat
-	isMember, err := bot.IsMemberOfChat(ctx.EffectiveChat.Id, ctx.EffectiveSender.User.Id)
-	if err != nil {
-		fmt.Println("Error while checking membership:", err.Error())
+func Start(bot *gotgbot.Bot, ctx *ext.Context) error {
+	if ctx.EffectiveChat.Type != "private" {
 		return nil
 	}
 
-	if !isMember {
-		// User is not a member, send a message asking to join
-		ctx.EffectiveMessage.Reply(
-			bot,
-			"Please join the chat to use this bot's features.",
-			nil,
-		)
-	} else {
-		// User is already a member, no action required
-		ctx.EffectiveMessage.Reply(
-			bot,
-			"You are already a member of the chat.",
-			nil,
-		)
-	}
+	user := ctx.EffectiveSender.User
+	text := `
+<b>Hello <a href="tg://user?id=%v">%v</a></b> ❤️
+I am a bot made for accepting newly coming join requests at the time they comes.
 
+Bot made with 💝 by <a href="t.me/CodeMasterTG">Code Master Bots</a> for you!
+<b>Support Chat:</b><a href="t.me/+4KDIm0IQ_NQ0NDdl">Support Chat</a>
+	`
+	ctx.EffectiveMessage.Reply(
+    bot,
+    fmt.Sprintf(text, user.Id, user.FirstName),
+    &gotgbot.SendMessageOpts{
+        ParseMode:             "html",
+        DisableWebPagePreview: true,
+    },
+)
+return nil
+}
+
+
+func Approve(bot *gotgbot.Bot, ctx *ext.Context) error {
+	_, err := bot.ApproveChatJoinRequest(ctx.EffectiveChat.Id, ctx.EffectiveSender.User.Id)
+	if err != nil {
+		fmt.Println("Error while approving:", err.Error())
+	}
 	return nil
 }
