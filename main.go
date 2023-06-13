@@ -74,7 +74,7 @@ Bot made with 💝 by <a href="t.me/CodeMasterTG">Code Master Bots</a> for you!
 		&gotgbot.SendMessageOpts{
 			ReplyMarkup: gotgbot.InlineKeyboardMarkup{
 				InlineKeyboard: [][]gotgbot.InlineKeyboardButton{{
-					{Text: "My Source Code", Url: "https://github.com/Reeshuxd/AutoApproverBot"},
+					{Text: "Update Channel", Url: "https://t.me/CodeMasterTG"},
 				}},
 			},
 			ParseMode:             "html",
